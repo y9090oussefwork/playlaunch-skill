@@ -4,6 +4,7 @@
 .DESCRIPTION
     Installs the `playlaunch` portable Agent Skill into standard Windows AI agent skill directories:
       - ~\.agents\skills\playlaunch
+      - ~\.gemini\config\skills\playlaunch
       - ~\.gemini\antigravity\skills\playlaunch
       - ~\.codex\skills\playlaunch
       - ~\.claude\skills\playlaunch
@@ -39,6 +40,7 @@ if (-not (Test-Path $SkillMd)) {
 
 $DefaultTargets = @(
     (Join-Path $HOME ".agents\skills\playlaunch"),
+    (Join-Path $HOME ".gemini\config\skills\playlaunch"),
     (Join-Path $HOME ".gemini\antigravity\skills\playlaunch"),
     (Join-Path $HOME ".codex\skills\playlaunch"),
     (Join-Path $HOME ".claude\skills\playlaunch")
