@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "policy_reference_date": "2026-11",
+  "technical_manifest_rules": {
+    "min_target_sdk_blocker": 34,
+    "recommended_target_sdk": 35,
+    "disallow_debuggable": true,
+    "disallow_cleartext_traffic": true,
+    "require_exported_with_intent_filter": true,
+    "require_16kb_native_page_alignment": true,
+    "native_page_alignment_bytes": 16384
+  },
+  "restricted_permissions": {
+    "android.permission.QUERY_ALL_PACKAGES": {
+      "severity": "BLOCKER",
+      "policy": "Package (App) Visibility Policy",
+      "reason": "Broad device app inventory access is heavily restricted and causes immediate rejection unless app is a launcher, security tool, or device search engine.",
+      "remediation": "Remove QUERY_ALL_PACKAGES and declare explicit <queries> entries for specific intents/packages only.",
+      "declaration_required": "Play Console -> App Content -> Query All Packages Declaration"
+    },
+    "android.permission.REQUEST_INSTALL_PACKAGES": {
+      "severity": "BLOCKER",
+      "policy": "Device & Network Abuse / Sensitive Permissions",
+      "reason": "Allows installing external APKs outside Google Play; almost always rejected for media or utility apps.",
+      "remediation": "Remove REQUEST_INSTALL_PACKAGES from AndroidManifest.xml and check transitive SDK manifests (tools:node='remove').",
+      "declaration_required": "Play Console -> App Content -> Request Install Packages Declaration"
+    },
+    "android.permission.MANAGE_EXTERNAL_STORAGE": {
+      "severity": "BLOCKER",
+      "policy": "All Files Access Policy",
+      "reason": "Broad shared storage write access is restricted to core file managers, backup tools, and antivirus apps.",
+      "remediation": "Remove MANAGE_EXTERNAL_STORAGE; use app-specific storage, MediaStore, or Storage Access Framework (SAF).",
+      "declaration_required": "Play Console -> App Content -> All Files Access Declaration"
+    },
+    "android.permission.READ_MEDIA_IMAGES": {
+      "severity": "WARNING",
+      "policy": "Photo and Video Permissions Policy",
+      "reason": "Persistent photo gallery access requires Play Console declaration and justification.",
+      "remediation": "Replace with Android Photo Picker for one-time image selection unless your core feature is a gallery/editor.",
+      "declaration_required": "Play Console -> App Content -> Photo and Video Permissions"
+    },
+    "android.permission.READ_MEDIA_VIDEO": {
+      "severity": "WARNING",
+      "policy": "Photo and Video Permissions Policy",
+      "reason": "Persistent video library access requires Play Console declaration.",
+      "remediation": "Remove if unused or migrate to Android Photo Picker.",
+      "declaration_required": "Play Console -> App Content -> Photo and Video Permissions"
+    },
+    "android.permission.READ_MEDIA_AUDIO": {
+      "severity": "WARNING",
+      "policy": "Media Permissions Best Practice",
+      "reason": "Requests access to user's shared audio library. Unnecessary if your app only plays bundled offline assets.",
+      "remediation": "Remove READ_MEDIA_AUDIO if all audio tracks are bundled inside app assets/raw resources.",
+      "declaration_required": "Ensure justification is clear in store listing if reading user local MP3 files."
+    },
+    "android.permission.READ_EXTERNAL_STORAGE": {
+      "severity": "WARNING",
+      "policy": "Legacy Storage Permission",
+      "reason": "Deprecated on Android 13+; should be removed or scoped with android:maxSdkVersion='32'.",
+      "remediation": "Remove if unused, or add android:maxSdkVersion='32'.",
+      "declaration_required": "None if removed or properly maxSdkVersion-scoped."
+    },
+    "android.permission.WRITE_EXTERNAL_STORAGE": {
+      "severity": "WARNING",
+      "policy": "Legacy Storage Permission",
+      "reason": "Deprecated on Android 10+; leaving it unscoped triggers Play Console review warnings.",
+      "remediation": "Remove or scope with android:maxSdkVersion='28'.",
+      "declaration_required": "None if removed."
+    },
+    "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK": {
+      "severity": "WARNING",
+      "policy": "Foreground Service Permissions Policy (Android 14+)",
+      "reason": "Google Play requires a Foreground Service declaration AND a short demo video showing the media playback notification & lock-screen controls.",
+      "remediation": "Keep only if background audio playback is a core feature, and complete the Foreground Service declaration with a 15-30s demo video link in Play Console.",
+      "declaration_required": "Play Console -> App Content -> Foreground Service Permissions (Media Playback + Demo Video)"
+    },
+    "android.permission.FOREGROUND_SERVICE_DATA_SYNC": {
+      "severity": "WARNING",
+      "policy": "Foreground Service Permissions Policy",
+      "reason": "Google discourages dataSync FGS; reviewers often ask to migrate to WorkManager.",
+      "remediation": "Migrate background downloads/sync to WorkManager unless long-running user-initiated transfer is required.",
+      "declaration_required": "Play Console -> App Content -> Foreground Service Permissions (Data Sync + Demo Video)"
+    },
+    "android.permission.FOREGROUND_SERVICE_SPECIAL_USE": {
+      "severity": "WARNING",
+      "policy": "Foreground Service Permissions Policy",
+      "reason": "Special Use FGS undergoes manual review and requires a detailed justification + demo video.",
+      "remediation": "Switch to a standard FGS type (e.g., mediaPlayback) or submit full Play Console justification.",
+      "declaration_required": "Play Console -> App Content -> Foreground Service Permissions (Special Use + Video)"
+    },
+    "com.google.android.gms.permission.AD_ID": {
+      "severity": "INFO",
+      "policy": "Advertising ID Declaration Policy",
+      "reason": "App declares Advertising ID permission; Play Console Advertising ID form must match accurately (and must be removed if targeting children).",
+      "remediation": "Declare 'Yes' in Play Console -> App Content -> Advertising ID (for Advertising/Analytics), OR strip via tools:node='remove' if app has no ads/analytics.",
+      "declaration_required": "Play Console -> App Content -> Advertising ID Declaration"
+    },
+    "android.permission.SCHEDULE_EXACT_ALARM": {
+      "severity": "WARNING",
+      "policy": "Exact Alarm Permission Policy",
+      "reason": "Restricted on Android 14+ unless app's core function is an alarm clock, timer, or calendar.",
+      "remediation": "Use WorkManager or inexact alarms unless exact timing is essential.",
+      "declaration_required": "Play Console -> App Content -> Exact Alarm Justification"
+    }
+  },
+  "sdk_fingerprints": {
+    "google_admob": {
+      "display_name": "Google AdMob / Mobile Ads SDK",
+      "markers": [
+        "com/google/android/gms/ads",
+        "com.google.android.gms.ads",
+        "play-services-ads",
+        "com.google.android.gms.ads.APPLICATION_ID"
+      ],
+      "requires_ads_declaration": true,
+      "families_incompatible_without_config": true,
+      "data_safety_disclosures": [
+        {
+          "category": "Device or other IDs",
+          "data_type": "Advertising ID / Device ID",
+          "collected": true,
+          "shared": true,
+          "purposes": ["Advertising or marketing", "Analytics", "Fraud prevention, security, and compliance"]
+        },
+        {
+          "category": "Location",
+          "data_type": "Approximate location (IP-derived)",
+          "collected": true,
+          "shared": true,
+          "purposes": ["Advertising or marketing", "Analytics"]
+        },
+        {
+          "category": "App activity",
+          "data_type": "App interactions & ad impressions",
+          "collected": true,
+          "shared": true,
+          "purposes": ["Advertising or marketing", "Analytics"]
+        },
+        {
+          "category": "App info and performance",
+          "data_type": "Diagnostics & crash metrics",
+          "collected": true,
+          "shared": false,
+          "purposes": ["Analytics", "App functionality"]
+        }
+      ]
+    },
+    "google_ump": {
+      "display_name": "Google UMP (User Messaging Platform — GDPR/EEA Consent)",
+      "markers": [
+        "com/google/android/ump",
+        "com.google.android.ump",
+        "user-messaging-platform"
+      ],
+      "requires_ads_declaration": false,
+      "data_safety_disclosures": []
+    },
+    "firebase_analytics": {
+      "display_name": "Firebase Analytics",
+      "markers": [
+        "com/google/firebase/analytics",
+        "com.google.firebase.analytics",
+        "firebase-analytics",
+        "firebase-measurement"
+      ],
+      "requires_ads_declaration": false,
+      "data_safety_disclosures": [
+        {
+          "category": "App activity",
+          "data_type": "App interactions & screen views",
+          "collected": true,
+          "shared": false,
+          "purposes": ["Analytics"]
+        },
+        {
+          "category": "Device or other IDs",
+          "data_type": "Firebase App Instance ID",
+          "collected": true,
+          "shared": false,
+          "purposes": ["Analytics"]
+        }
+      ]
+    },
+    "firebase_crashlytics": {
+      "display_name": "Firebase Crashlytics",
+      "markers": [
+        "com/google/firebase/crashlytics",
+        "com.google.firebase.crashlytics",
+        "firebase-crashlytics"
+      ],
+      "requires_ads_declaration": false,
+      "data_safety_disclosures": [
+        {
+          "category": "App info and performance",
+          "data_type": "Crash logs & Diagnostics",
+          "collected": true,
+          "shared": false,
+          "purposes": ["App functionality", "Analytics"]
+        }
+      ]
+    },
+    "firebase_messaging": {
+      "display_name": "Firebase Cloud Messaging (FCM)",
+      "markers": [
+        "com/google/firebase/messaging",
+        "com.google.firebase.messaging",
+        "firebase-messaging"
+      ],
+      "requires_ads_declaration": false,
+      "data_safety_disclosures": [
+        {
+          "category": "Device or other IDs",
+          "data_type": "FCM Registration Token",
+          "collected": true,
+          "shared": false,
+          "purposes": ["App functionality", "Developer communications"]
+        }
+      ]
+    },
+    "facebook_sdk": {
+      "display_name": "Meta / Facebook SDK",
+      "markers": [
+        "com/facebook/FacebookSdk",
+        "com.facebook.ads",
+        "facebook-core"
+      ],
+      "requires_ads_declaration": true,
+      "families_incompatible_without_config": true,
+      "data_safety_disclosures": [
+        {
+          "category": "Device or other IDs",
+          "data_type": "Advertising ID & App Events",
+          "collected": true,
+          "shared": true,
+          "purposes": ["Advertising or marketing", "Analytics"]
+        }
+      ]
+    },
+    "onesignal": {
+      "display_name": "OneSignal Push SDK",
+      "markers": [
+        "com/onesignal",
+        "com.onesignal"
+      ],
+      "requires_ads_declaration": false,
+      "data_safety_disclosures": [
+        {
+          "category": "Device or other IDs",
+          "data_type": "Push Notification Token / Player ID",
+          "collected": true,
+          "shared": true,
+          "purposes": ["App functionality", "Developer communications"]
+        }
+      ]
+    }
+  },
+  "ip_and_impersonation_rules": {
+    "official_impersonation_phrases": {
+      "severity": "BLOCKER",
+      "policy": "Impersonation & Deceptive Identity Policy",
+      "remediation": "Remove 'Official' / 'رسمي' claims unless you hold written publisher authorization; describe the app clearly as an independent/fan audio player.",
+      "en": [
+        "official app",
+        "official application",
+        "official player",
+        "the official",
+        "authorized official"
+      ],
+      "ar": [
+        "التطبيق الرسمي",
+        "البرنامج الرسمي",
+        "النسخه الرسميه",
+        "المشغل الرسمي",
+        "تطبيق رسمي",
+        "بترخيص رسمي"
+      ]
+    },
+    "prohibited_downloader_phrases": {
+      "severity": "BLOCKER",
+      "policy": "Device & Network Abuse / YouTube & Third-Party ToS Violation",
+      "remediation": "Remove all third-party video/music downloading claims (YouTube, TikTok, Spotify, SoundCloud). Google Play permanently suspends downloader apps.",
+      "en": [
+        "youtube downloader",
+        "download from youtube",
+        "download youtube",
+        "save youtube videos",
+        "youtube to mp3",
+        "tiktok downloader",
+        "download from tiktok",
+        "download without watermark",
+        "spotify downloader",
+        "download from spotify",
+        "soundcloud downloader"
+      ],
+      "ar": [
+        "تحميل من يوتيوب",
+        "تنزيل من يوتيوب",
+        "تحميل فيديوهات يوتيوب",
+        "تحميل اغاني يوتيوب",
+        "تحميل من تيك توك",
+        "تنزيل من تيك توك",
+        "بدون علامه مائيه",
+        "تحميل من سبوتيفاي",
+        "تنزيل من سبوتيفاي",
+        "تحميل من ساوند كلاود"
+      ]
+    },
+    "third_party_brand_warning_terms": {
+      "severity": "WARNING",
+      "policy": "Intellectual Property & Trademark Reference Policy",
+      "remediation": "Avoid referencing unrelated third-party brand names in store metadata to prevent automated IP rejections.",
+      "terms": [
+        "youtube",
+        "spotify",
+        "tiktok",
+        "anghami",
+        "soundcloud",
+        "apple music",
+        "deezer",
+        "يوتيوب",
+        "سبوتيفاي",
+        "تيك توك",
+        "انغامي",
+        "ساوند كلاود"
+      ]
+    }
+  }
+}

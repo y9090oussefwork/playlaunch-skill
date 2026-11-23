@@ -1,0 +1,50 @@
+# PlayLaunch Studio — Strict .gitignore
+# Never commit virtual environments, secrets, real developer profiles, IP ledgers, run outputs, or vendor clones.
+
+# Python virtual environment & caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local machine configuration (only *.example.json is tracked)
+config/studio.config.json
+
+# Secrets & isolated Play API keys (NEVER commit)
+secrets/*
+!secrets/.gitkeep
+
+# Real developer account & app profiles (only *.example.json is tracked)
+profiles/accounts/*.json
+!profiles/accounts/*.example.json
+profiles/apps/*.json
+!profiles/apps/*.example.json
+
+# Persistent security databases & live guard status (local IP & key binding ledgers)
+security/*.sqlite3
+security/*.sqlite3-journal
+security/*.sqlite3-wal
+security/*.sqlite3-shm
+security/*.db
+security/guard_live_status.json
+
+# Pipeline execution artifacts & manual export bundles
+workspace_runs/*
+!workspace_runs/.gitkeep
+
+# Unmodified open-source vendor clones (tracked ONLY via vendors/setup_vendors.ps1)
+vendors/*
+!vendors/setup_vendors.ps1
+!vendors/README.md
+
+# OS & editor files
+desktop.ini
+Thumbs.db
+.DS_Store
+*.log
+.vscode/
+.idea/

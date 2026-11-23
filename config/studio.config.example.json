@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "environment": {
+    "java_home_override": "",
+    "prefer_android_studio_jbr": true,
+    "android_studio_jbr_candidates": [
+      "C:\\Program Files\\Android\\Android Studio\\jbr",
+      "%LOCALAPPDATA%\\Programs\\Android Studio\\jbr"
+    ],
+    "android_sdk_path": "%LOCALAPPDATA%\\Android\\Sdk",
+    "flutter_bin": "",
+    "node_bin": "",
+    "python_bin": ""
+  },
+  "audio_workspace": {
+    "enabled": false,
+    "root_path": "",
+    "local_api_url": "http://127.0.0.1:5000",
+    "agent_jobs_sqlite_path": "%LOCALAPPDATA%\\YoussefAudioPlatform\\app-manager\\agent_jobs.sqlite3",
+    "read_only": true
+  },
+  "defaults": {
+    "target_locales": ["ar", "en-US"],
+    "default_publish_mode": "manual_bundle"
+  },
+  "security": {
+    "ip_ledger_path": "security/ip_ledger.sqlite3",
+    "ipv4_check_endpoints": [
+      "https://api.ipify.org?format=json",
+      "https://ipv4.icanhazip.com",
+      "https://v4.ident.me"
+    ],
+    "router_reboot_poll_seconds": 5,
+    "ip_check_timeout_seconds": 8
+  }
+}

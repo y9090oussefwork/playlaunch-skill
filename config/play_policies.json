@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "limits": {
+    "title_max_chars": 30,
+    "short_description_max_chars": 80,
+    "full_description_max_chars": 4000,
+    "changelog_max_chars": 500,
+    "max_emojis_in_title": 0,
+    "max_emojis_in_short_description": 1,
+    "max_emojis_in_full_description": 8,
+    "max_keyword_density_percent": 4.0,
+    "max_single_word_repeats_in_full_description": 10
+  },
+  "visual_requirements": {
+    "icon": {
+      "width": 512,
+      "height": 512,
+      "format": "PNG",
+      "max_size_kb": 1024
+    },
+    "feature_graphic": {
+      "width": 1024,
+      "height": 500,
+      "format": "PNG",
+      "max_size_kb": 15360
+    },
+    "phone_screenshot": {
+      "width": 1080,
+      "height": 1920,
+      "min_count": 2,
+      "max_count": 8,
+      "format": "PNG"
+    }
+  },
+  "banned_promotional_phrases": {
+    "en": [
+      "#1",
+      "no. 1",
+      "number 1",
+      "number one",
+      "best app",
+      "top app",
+      "free download",
+      "download now",
+      "download free",
+      "100% free",
+      "install now",
+      "top rated",
+      "award winning",
+      "editor's choice"
+    ],
+    "ar": [
+      "رقم 1",
+      "الافضل في العالم",
+      "الأفضل في العالم",
+      "حمل الان",
+      "حمّل الآن",
+      "تحميل مجاني",
+      "تنزيل مجاني",
+      "مجاني 100%",
+      "افضل تطبيق",
+      "أفضل تطبيق"
+    ]
+  },
+  "disallowed_title_patterns": [
+    "!!+",
+    "\\?\\?+",
+    "\\bFREE\\b",
+    "\\bTOP\\b",
+    "\\bBEST\\b",
+    "\\bNEW\\b",
+    "\\bSALE\\b",
+    "★|☆|🔥|💯|✅|⬇️"
+  ],
+  "vitals_thresholds": {
+    "crash_rate_bad_behavior_percent": 1.09,
+    "anr_rate_bad_behavior_percent": 0.47
+  }
+}

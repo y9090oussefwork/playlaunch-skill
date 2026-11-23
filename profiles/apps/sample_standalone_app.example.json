@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "slug": "sample-standalone-app",
+  "display_name": "Sample Focus Timer",
+  "package_name": "com.example.focustimer",
+  "framework": "kotlin",
+  "source_path": "D:\\Projects\\SampleFocusTimer",
+  "android_module": "app",
+  "account_id": "sample_dev_account",
+  "target_locales": ["en-US", "ar"],
+  "primary_category": "PRODUCTIVITY",
+  "brand": {
+    "accent_color": "#2563EB",
+    "background_color": "#0F172A",
+    "icon_path": ""
+  },
+  "store_seed": {
+    "app_summary": "Minimalist Pomodoro focus timer and daily task tracker that works offline.",
+    "seed_keywords": ["pomodoro timer", "focus timer", "study timer", "مؤقت بومودورو", "تنظيم الوقت"],
+    "competitor_packages": []
+  },
+  "signing": {
+    "keystore_env_var": "SAMPLE_APP_KEYSTORE_PATH",
+    "verify_signature": true
+  }
+}

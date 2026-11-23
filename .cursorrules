@@ -1,0 +1,8 @@
+# PlayLaunch Skill — Cursor / Codex Entrypoint (.cursorrules)
+
+Single Source of Truth: Read and follow `SKILL.md` in this directory and the relevant guide in `references/`.
+
+Mandatory Guardrails:
+- NEVER pass `--approve`, `--promote-production`, `--acknowledge-compliance-risks`, `--sync-to-audio-workspace`, or run `stages/07_isolated_publish.py` without explicit user confirmation in the same message.
+- Always run Stages 1 -> 6 + mandatory `stages/02b_compliance_audit.py`, pause at `awaiting_human_approval`, and present preview files (`play_console_declarations_checklist.html`, `listing_copy.html`, and rendered PNGs) directly in chat.
+- Always use `<SKILL>\.venv\Scripts\python.exe` (Python 3.12); never edit `vendors/` or `Youssef_Audio_Workspace`.

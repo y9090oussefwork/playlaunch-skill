@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "account_id": "sample_dev_account",
+  "display_name": "Sample Developer Account",
+  "publish_mode": "manual_bundle",
+  "default_track": "draft",
+  "network_isolation": {
+    "mode": "router_reboot",
+    "strict_subnet_block": true,
+    "require_fresh_ip_every_run": false,
+    "dedicated_proxy_url": "",
+    "proxy_keyring_service": "PlayLaunchStudio:sample_dev_account",
+    "proxy_username": "",
+    "wifi_ssid": "",
+    "network_adapter_name": ""
+  },
+  "play_api_credentials": {
+    "service_account_email": "playlaunch-sample@example-project.iam.gserviceaccount.com",
+    "key_file_path": "secrets/sample_dev_account_play_key.json",
+    "key_file_sha256": ""
+  },
+  "anti_repetition_style": {
+    "preferred_tone": "clean_informative",
+    "preferred_visual_template": "minimal_card_v1",
+    "preferred_font_ar": "Cairo",
+    "preferred_font_en": "Inter"
+  }
+}
